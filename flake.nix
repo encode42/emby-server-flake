@@ -15,10 +15,10 @@
       };
       emby = pkgs.stdenv.mkDerivation rec {
         pname = "emby-server";
-        version = "4.8.11.0";
+        version = "4.9.1.90";
         src = pkgs.fetchurl {
           url = "https://github.com/MediaBrowser/Emby.Releases/releases/download/${version}/${pname}-deb_${version}_amd64.deb";
-          sha256 = "sha256-Zf3Klu6sQysbG9i8W64gknTG3+suLDS0GpaVfyU5TEA=";
+          sha256 = "sha256-t0AkLwAqJ7GAhWKU9Htg6p0UFCv3XyRdeCnIDlcZ1UI=";
         };
 
         buildInputs = [
@@ -74,7 +74,7 @@
             --prefix LD_LIBRARY_PATH : "$out/lib:$out/lib/x86_64-linux-gnu"
 
           # Create wrapper for emby-ffdetect
-          mv $out/bin/emby-ffdetect $out/bin/.emby-ffdetect-unwrapped  
+          mv $out/bin/emby-ffdetect $out/bin/.emby-ffdetect-unwrapped
           makeWrapper "$out/bin/.emby-ffdetect-unwrapped" $out/bin/emby-ffdetect \
             --prefix LD_LIBRARY_PATH : "$out/lib:$out/lib/x86_64-linux-gnu"
 
@@ -82,7 +82,7 @@
           mv $out/bin/ffmpeg $out/bin/.ffmpeg-unwrapped
           makeWrapper "$out/bin/.ffmpeg-unwrapped" $out/bin/ffmpeg \
             --prefix LD_LIBRARY_PATH : "$out/lib:$out/lib/x86_64-linux-gnu"
-            
+
           mv $out/bin/ffprobe $out/bin/.ffprobe-unwrapped
           makeWrapper "$out/bin/.ffprobe-unwrapped" $out/bin/ffprobe \
             --prefix LD_LIBRARY_PATH : "$out/lib:$out/lib/x86_64-linux-gnu"
@@ -93,7 +93,7 @@
           # Patch all binaries to use system libraries where possible
           # The FFmpeg libraries from the deb will be found via LD_LIBRARY_PATH
           autoPatchelf $out/bin/.emby-ffmpeg-unwrapped || true
-          autoPatchelf $out/bin/.emby-ffdetect-unwrapped || true  
+          autoPatchelf $out/bin/.emby-ffdetect-unwrapped || true
           autoPatchelf $out/bin/.ffmpeg-unwrapped || true
           autoPatchelf $out/bin/.ffprobe-unwrapped || true
 
@@ -105,7 +105,7 @@
           description = "Emby Media Server";
           homepage = "https://emby.media/";
           license = licenses.unfree;
-          maintainers = [ ];
+          maintainers = [ encode42 ];
           platforms = [ "x86_64-linux" ];
           mainProgram = "emby";
         };
